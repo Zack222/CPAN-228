@@ -1,5 +1,6 @@
 package com.cpan252.tekkenreborn.controller;
 
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -36,13 +36,6 @@ public class FighterListController {
         return "fighterlist";
     }
 
-    /**
-     * This method will allow us to populate the model with initial fighter details
-     * 1. We will use the fighterRepositoryPaginated to retrieve the first page of
-     * fighters (we set the page size to 5)
-     * 
-     * @param model
-     */
     @ModelAttribute
     public void fighters(Model model) {
         var fighterPage = fighterRepositoryPaginated.findAll(PageRequest.of(0, PAGE_SIZE));
@@ -50,14 +43,13 @@ public class FighterListController {
         model.addAttribute("currentPage", fighterPage.getNumber());
         model.addAttribute("totalPages", fighterPage.getTotalPages());
     }
-
     @ModelAttribute
     public void fightersByDateDto(Model model) {
         model.addAttribute("fightersByDateDto", new FighterSearchByDateDto());
     }
 
-    @PostMapping
-    public String searchFightersByDate(@ModelAttribute FighterSearchByDateDto fightersByDateDto,
+        @PostMapping
+        public String searchFightersByDate(@ModelAttribute FighterSearchByDateDto fightersByDateDto,
             Model model) {
         var dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         model.addAttribute("fighters", fighterRepository.findByNameStartsWithAndCreatedAtBetween(
@@ -81,3 +73,4 @@ public class FighterListController {
         return "fighterlist";
     }
 }
+
