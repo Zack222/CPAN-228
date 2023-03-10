@@ -38,18 +38,9 @@ public class DesignController {
         log.info("animes converted to string:  {}", animes);
     }
 
-    /**
-     * 1. We have created a new Fighter object here, to be populated from the form
-     * inputs
-     * 2. We have to reference the Fighter object properties in the form and bind
-     * them to the corresponding inputs
-     * 3. We have to submit Form (execute POST request) and make sure fighter
-     * details are valid
-     * 
-     * @return Fighter model that we will need only for request (form) submission
-     */
+    
     @ModelAttribute
-    // This model attribute has a lifetime of a request
+    
     public Fighter fighter() {
         return Fighter
                 .builder()
@@ -62,7 +53,8 @@ public class DesignController {
             return "design";
         }
         log.info("Processing fighter: {}", fighter);
-        fighterRepository.save(fighter);
+        var id = fighterRepository.save(fighter);
+        log.info("Saved fighter with id: {}", id);
         return "redirect:/design";
     }
 
